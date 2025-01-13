@@ -30,4 +30,22 @@ public class ClientService {
         Optional<Client> optionalClient = this.clientRepository.findById(id);
         return optionalClient.orElse(null);
     }
+
+    public Client lireOuCreer(Client clientAcreer) {
+        Client clientDansLaBDD = this.clientRepository.findByEmail(clientAcreer.getEmail());
+        if(clientDansLaBDD == null){
+            this.clientRepository.save(clientAcreer);
+        }
+        return clientDansLaBDD;
+    }
+
+    public void modifier(int id, Client client) {
+       Client clientDansLaBDD = this.lire(id);
+       if(clientDansLaBDD.getId() == client.getId()){
+           clientDansLaBDD.setEmail(client.getEmail());
+           clientDansLaBDD.setTelephone(client.getTelephone());
+           this.clientRepository.save(clientDansLaBDD);
+       }
+
+    }
 }
